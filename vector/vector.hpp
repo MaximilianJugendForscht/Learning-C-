@@ -1,57 +1,54 @@
-#pragma 4once
+#pragma once
 
 namespace vec {
 	template <typename T>
 	class vector {
-	public:
-		vector ();
-		~vector ();
-		bool push_back (T input);
-		void preallocate (int size);
-		T operator[](int index);
-		
 	private:
-		void preAllocate ();
 		int itemNumb = 0;
 		int size = 0;
 		int typeSize = 0;
 		int preallocSize = 1;
 		T * data;
-	};
-
-	template <typename T>
-	vector<T>::vector () {
-		typeSize = sizeof(T);
-	}
-
-	template <typename T>
-	bool vector<T>::push_back (T input) {
-		if (size == itemNumb) {
-			preAllocate();
+	public:
+		vector () {
+			typeSize = sizeof(T);
+			data = (T*)malloc (preallocSize);
+			size += preallocSize;
 		}
-		itemNumb ++;
 
-	}
+		void push_back (T input) {
+			if (size == itemNumb) {
+				preAllocate();
+			}
+			data[itemNumb] = input;
+			itemNumb ++;
+		}
 
-	template <typename T>
-	vector<T>::~vector () {
+		~vector () {
+			free (data);
+		}
 
-	}
+		void preallocate(int size) {
+			preallocSize = size;
+			if (preallocSize < 1) preallocSize = 1;
+		}
 
-	template <typename T> 
-	void vector<T>::preallocate(int size) {
-		preallocSize = size;
-		if (preallocSize < 1) preallocSize = 1;
-	}
+		void preAllocate () {
+			data = (T*)realloc (data, preallocSize);
+			size += preallocSize;
+		}
 
-	template <typename T>
-	void vector<T>::preAllocate () {
-		data = (T*) malloc (typeSize * preallocSize);
-		size += preallocSize;
-	}
+		T& operator[] (int index) {
+			return data [index];
+		}
 
-	template <typename T>
-	T vector<T>::operator[] (int index) {
-		return data [index * typeSize];
-	}
+		T& operator= (const T& assignee) {
+			this = assignee;
+			return this;
+		}
+		T& assign (int index, const T& assignee) {
+			data[index] = assignee;
+			return data[index];
+		}
+	};
 }
