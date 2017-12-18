@@ -11,5 +11,5 @@ int main () {
 	std::cout << vec1[0] << " " << vec1[1] << " " << vec1[2] << std::endl;
 	vec1.assign (1, 15);
 	vec1[0] = 1;
-	std::cout << vec1[0] << " " << vec1[1] << " " << vec1[2] << std::endl;
+	std::cout << vec1[0] << " " << vec1.at(1) << " " << vec1[2] << std::endl;
 }

@@ -1,6 +1,16 @@
 #pragma once
 
+#include <stdexcept>
+
 namespace vec {
+
+	class outOfRange : public std::runtime_error {
+	public:
+		char* what () {
+			return (char*) "Index out of range in vec::vector<type>";
+		}
+	};
+
 	template <typename T>
 	class vector {
 	private:
@@ -49,6 +59,30 @@ namespace vec {
 		T& assign (int index, const T& assignee) {
 			data[index] = assignee;
 			return data[index];
+		}
+
+		T& at (unsigned int index) {
+			if (index > itemNumb) {
+				abort();
+			}
+			return data[index];
+		}
+		T& front () {
+			return data[0];
+		}
+		T& back () {
+			return data[itemNumb];
+		}
+		T* fulldata () {
+			return data;
+		}
+		bool empty () {
+			if (itemNumb == 0) return true;
+
+			return false;
+		}
+		int vecsize () {
+			return itemNumb;
 		}
 	};
 }
