@@ -2,6 +2,10 @@
 
 #include <stdexcept>
 
+#ifndef VECTOR_START
+	#define VECTOR_START 0
+#endif
+
 namespace vec {
 
 	class outOfRange : public std::runtime_error {
@@ -49,7 +53,7 @@ namespace vec {
 		}
 
 		T& operator[] (int index) {
-			return data [index];
+			return data [index - VECTOR_START];
 		}
 
 		T& operator= (const T& assignee) {
@@ -65,7 +69,7 @@ namespace vec {
 			if (index > itemNumb) {
 				abort();
 			}
-			return data[index];
+			return data[index - VECTOR_START];
 		}
 		T& front () {
 			return data[0];
